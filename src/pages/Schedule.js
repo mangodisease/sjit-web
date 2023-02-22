@@ -104,8 +104,8 @@ export default function Schedule(){
                     :
                     <Webcam
                       audio={false}
-                      height={isMobile?  window.innerWidth * .8 : 500}
-                      width={isMobile?  window.innerHeight * .8 : 500}
+                      height={"auto"}
+                      width={"auto"}
                       screenshotFormat="image/jpeg"
                       videoConstraints={videoConstraints}
                     >
