@@ -11,8 +11,8 @@ export default function Schedule(){
     const uri = "https://sjit-attendance-api.herokuapp.com/test-attendance"
 
     const videoConstraints = {
-        width: "auto",
-        height: "auto",
+        width: isMobile? "auto" : 500,
+        height: isMobile? "auto" : 500,
         facingMode: "user"
       };
       const [predicting, setpredicting] = useState(false)
@@ -90,11 +90,11 @@ export default function Schedule(){
                         <Image
                     src={imgSrc}
                     preview={false}
-                    width={"auto"}
-                    height={"auto"}
+                    width={isMobile? "auto" : 500}
+                    height={isMobile? "auto" : 500}
                     />
                     <Button
-                          style={{ marginTop: 20, width: "72%", }}
+                          style={{  marginTop: 20, width: "72%", }}
                             loading
                           className='btn btn-success'
                         >
@@ -104,8 +104,8 @@ export default function Schedule(){
                     :
                     <Webcam
                       audio={false}
-                      height={"auto"}
-                      width={"auto"}
+                      height={isMobile? "auto" : 500}
+                      width={isMobile? "auto" : 500}
                       screenshotFormat="image/jpeg"
                       videoConstraints={videoConstraints}
                     >
