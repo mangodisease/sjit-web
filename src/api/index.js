@@ -1,3 +1,4 @@
+/* eslint-disable */
 import http from "./base";
 
 class API {

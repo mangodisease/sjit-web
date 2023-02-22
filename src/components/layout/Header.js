@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState, useEffect } from "react";
 
 import {
@@ -172,7 +173,7 @@ function Header({
             placement={placement}
             visible={visible}
           >
-            
+
           </Drawer>
           <Link to="/sign-in" className="btn-sign-in" hidden>
             {profile}

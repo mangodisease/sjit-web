@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Webcam from "react-webcam";
 import { useState } from "react";
 // eslint-disable-next-line

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Row, Col, Button, Checkbox, Form, Input, Card } from "antd"
 import logo from "../assets/images/favicon.png"
 

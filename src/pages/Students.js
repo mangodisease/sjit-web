@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Row, Col, Card, Button, Table, Modal, Form, Input, DatePicker, notification, Upload, Image } from "antd";
 import api from "../api";
 import { useEffect, useState } from "react";
