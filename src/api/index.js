@@ -1,14 +1,32 @@
 /* eslint-disable */
-import http from "./base";
+import axios from "axios"
 
-class API {
+const baseURL = false? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
 
-    getAllStudents(){
-        return http.post("/get", {
+const JWT = localStorage.getItem("JWT")
+
+const api_url = axios.create({
+  baseURL: baseURL,
+  headers: {
+    "Content-type": "application/json"||"multipart/form-data"||"image/png"
+  }
+})
+
+    export async function getAllStudents(){
+        return api_url.post("/get", {
             col: "students",
             query: {}, select: ""
         })
     }
-}
 
-export default new API()
+    export async function AddStudent(formData){
+        return axios({
+            method: "post",
+            url: baseURL+"/test-add-student",
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data",
+            //"Authorization": "Bearer "+ JWT 
+            }
+        })
+    }
+    

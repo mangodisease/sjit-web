@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Row, Col, Card, Button, Table, Modal, Form, Input, DatePicker, notification, Upload, Image } from "antd";
-import api from "../api";
+import { getAllStudents, AddStudent } from "../api";
 import { useEffect, useState } from "react";
 import logo from "../assets/images/favicon.png"
 import { ToTopOutlined } from "@ant-design/icons";
@@ -39,7 +39,7 @@ export default function Students() {
     const [showadd, setshowadd] = useState(false)
 
     async function setStudents() {
-        await api.getAllStudents()
+        await getAllStudents()
             .then(res => {
                 console.log(res.data)
                 const data = res.data
@@ -57,12 +57,12 @@ export default function Students() {
 
     const [form] = Form.useForm()
     const init = {
-        "name": "",
-        "course": "",
-        "year_level": "",
+        "name": "dasd",
+        "course": "asd",
+        "year_level": "ads",
         "birthdate": "",
-        "parent": "",
-        "parent_contact": ""
+        "parent": "asd",
+        "parent_contact": "asd"
     }
     // eslint-disable-next-line
     const [selectedFile, setselectedFile] = useState(null)
@@ -119,7 +119,75 @@ export default function Students() {
         setimageUrl('')
         setselectedFileList([])
     }
+    const [data, setdata] = useState(null)
+    const [saving, setsaving] = useState(false)
 
+    async function Add(file, values) {
+        try {
+          if (file !== null) {
+            const formData = new FormData();
+            formData.append("File", file);
+            formData.append("body", JSON.stringify(values));
+    
+            await AddStudent(formData)
+              .then(res => {
+                console.log(res.data)
+                if (res.data.isAdded) {
+                  notification.success({
+                    message: "Student Successfully Added!",
+                    placement: "topRight"
+                  })
+                  getProducts()
+                  setTimeout(() => {
+                    setsaving(false)
+                    clear()
+                  }, 1500)
+                } else {
+                  notification.warning({
+                    message: res.data.msg,
+                    placement: "topRight"
+                  })
+                  setTimeout(() => {
+                    setsaving(false)
+                  }, 1500)
+                }
+              }).catch(err => {
+                console.error(err.message)
+                setsaving(false)
+                notification.error({
+                  message: "Server Error! please try again later!",
+                  placement: "topRight"
+                })
+              })
+          } else {
+            notification.info({
+              message: "Please insert/select a product image!"
+            })
+          }
+        } catch (err) {
+          console.log(err.message)
+          setsaving(false)
+        }
+      }
+
+    async function Update(){
+
+    }
+
+    async function Submit(what, values) {
+        try {
+          setsaving(true)
+          if (what === "Update") {
+            Update(selectedFile, values, data)
+          } else {
+            Add(selectedFile, values)
+          }
+        } catch (err) {
+          console.log(err.message)
+          console.log(" here")
+        }
+    }
+    
     return <>
         <Modal
             title="Add Student"
@@ -135,8 +203,29 @@ export default function Students() {
             <Form
                 form={form}
                 initialValues={init}
-                onFinish={values => {
+                onFinish={async (values) => {
                     console.log(values)
+                    if (data === null) {
+                        if (imageUrl === "" && selectedFile === null) {
+                          notification.warning({
+                            message: "Please select/insert a product image to upload!",
+                            placement: "topRight"
+                          })
+                        } else {
+                          await Submit("Add", values)
+                        }
+                      }
+                      //update
+                      else {
+                        if (imageUrl === "" && selectedFile === null) {
+                          //dont update image
+                          await Submit("Update", values, false)
+                        } else {
+                          //update image
+                          await Submit("Update", values, true)
+                        }
+                      }
+      
                     
                 }}
                 onFinishFailed={err => {

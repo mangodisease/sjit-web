@@ -24,7 +24,7 @@ function App() {
           <Route exact path="/students" component={()=>{ return <Students /> }} />
           <Route exact path="/teachers" component={()=>{ return <Teachers />}} />
           <Route exact path="/attendance" component={()=>{ return <Home />}} />
-          <Redirect from="*" to={"/class-schedule"} />
+          <Redirect from="*" to={"/students"} />
         </Main>
       </Switch>
     </div>
