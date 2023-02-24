@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from "axios"
 
-const baseURL = false? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
+const baseURL = true? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
 
 const JWT = localStorage.getItem("JWT")
 
@@ -22,7 +22,7 @@ const api_url = axios.create({
     export async function AddStudent(formData){
         return axios({
             method: "post",
-            url: baseURL+"/test-add-student",
+            url: baseURL+"/add-student",
             data: formData,
             headers: { "Content-Type": "multipart/form-data",
             //"Authorization": "Bearer "+ JWT 
