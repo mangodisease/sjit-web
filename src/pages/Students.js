@@ -137,7 +137,7 @@ export default function Students() {
                     message: "Student Successfully Added!",
                     placement: "topRight"
                   })
-                  getProducts()
+                  setStudents()
                   setTimeout(() => {
                     setsaving(false)
                     clear()
