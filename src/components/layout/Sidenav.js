@@ -1,8 +1,9 @@
+/* eslint-disable */
 import { Menu, Button } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/favicon.png";
 
-function Sidenav({ color }) {
+function Sidenav({ color, loginAs }) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
 
@@ -48,11 +49,16 @@ function Sidenav({ color }) {
     </svg>,
   ];
 
-  const links = [
+  const adminL = [
     {
       to: "/class-schedule",
       icon: "📅",
       label: "Class - Schedule",
+    },
+    {
+      to: "/enroll-student",
+      icon: "🎓",
+      label: "Enroll - Student",
     },
     {
       to: "/students",
@@ -71,15 +77,18 @@ function Sidenav({ color }) {
     },
   ];
 
-  return (
-    <>
-      <div className="brand">
-        <img src={logo} alt="" />
-        <span>Attendance Monitoring</span>
-      </div>
-      <hr />
-      <Menu theme="light" mode="inline">
-        {links.map((val, i) => {
+  function SidebarMenu(links){
+    try {
+      let urls = null
+
+      if(loginAs==="Admin"){
+        urls = adminL
+      } else {
+        urls = adminL
+      }
+
+      return <>
+      {urls!==null&&urls.map((val, i) => {
           return (
             <Menu.Item key={i}>
               <NavLink to={val.to}>
@@ -95,8 +104,23 @@ function Sidenav({ color }) {
               </NavLink>
             </Menu.Item>
           );
-        })}
-        
+        })
+        }
+      </>
+    } catch (err) {
+      console.log(err.message)
+      return <></>
+    }
+  }
+  return (
+    <>
+      <div className="brand">
+        <img src={logo} alt="" />
+        <span>Attendance Monitoring</span>
+      </div>
+      <hr />
+      <Menu theme="light" mode="inline">
+        {SidebarMenu()}
       </Menu>
       <div className="aside-footer" >
         <div

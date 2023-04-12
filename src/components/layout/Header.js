@@ -175,10 +175,17 @@ function Header({
           >
 
           </Drawer>
-          <Link to="/sign-in" className="btn-sign-in" hidden>
+          <Button type="link" className="btn-sign-in"
+          onClick={()=>{
+            const conf = window.confirm("Are you sure you want to logout?")
+            if(conf){
+              alert("logout!")
+            }
+          }}
+          >
             {profile}
-            <span>Sign in</span>
-          </Link>
+            <span>Logout ?</span>
+          </Button>
           <Input
             className="header-search"
             placeholder="Type here..."

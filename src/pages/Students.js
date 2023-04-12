@@ -1,47 +1,89 @@
 /* eslint-disable */
-import { Row, Col, Card, Button, Table, Modal, Form, Input, DatePicker, notification, Upload, Image } from "antd";
-import { getAllStudents, AddStudent } from "../api";
+import { Row, Col, Card, Button, Table, Modal, Form, Input, DatePicker, notification, Upload, Image, Select } from "antd";
+import { getAllStudents, AddStudent, UpdateStudent } from "../api";
 import { useEffect, useState } from "react";
 import logo from "../assets/images/favicon.png"
 import { ToTopOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 export default function Students() {
 
     const columns = [
         {
-            title: "Name",
+            title: "Student",
             render: val => (
-                <span>{val.name}</span>
+                <Row>
+                    <Col xs={24} lg={7}>
+                        <Image src={`${val.image}`} width={60} height={60} style={{ borderRadius: 50 }} preview />
+                    </Col>
+                    <Col xs={24} lg={17}>
+                        <span><b>Name: </b> {val.name}</span> <br />
+                        <span><b>Birthdate:</b> {moment(val.birthdate).format("MM-DD-YYYY")}</span>
+                    </Col>
+                </Row>
             )
         },
         {
             title: "Course - Level",
             render: val => (
                 <span>
-                    Course: {val.course} <br />
-                    Year Level: {val.year_level}
+                    <b>Course: </b> {val.course} <br />
+                    <b>Year Level: </b> {val.year_level}
                 </span>
             )
         },
         {
-            title: "Parent's Contact",
+            title: "Parents",
             render: val => (
                 <span>
-                    {val.parent}
+                    <b>Name: </b>{val.parent}
                     <br />
-                    {val.parent_contact}
+                    <b>Contact #: </b>{val.parent_contact}
                 </span>
+            )
+        },
+        {
+            title: <center>Action</center>,
+            render: val => (
+                <center>
+                    <Row>
+                        <Col lg={12} xs={24} style={{ marginBottom: 10 }}>
+                            <Button
+                                type={"primary"}
+                                onClick={() => {
+                                    setshowadd(true)
+                                    val.birthdate = moment(val.birthdate)
+                                    setselStud(val)
+                                    form.setFieldsValue(val)
+                                }}
+                            >
+                                EDIT
+                            </Button>
+                        </Col>
+                        <Col lg={12} xs={24}>
+                            <Button
+                                type={"danger"}
+                                onClick={() => {
+
+                                }}
+                            >
+                                DELETE
+                            </Button>
+                        </Col>
+
+                    </Row>
+                </center>
             )
         },
     ]
 
     const [list, setlist] = useState(null)
     const [showadd, setshowadd] = useState(false)
+    const [selStud, setselStud] = useState(null)
 
     async function setStudents() {
         await getAllStudents()
             .then(res => {
-                console.log(res.data)
                 const data = res.data
                 setlist(data.result)
             }).catch(err => {
@@ -49,20 +91,23 @@ export default function Students() {
                 setlist(null)
             })
     }
+
     useEffect(async () => {
         await setStudents()
     },
-    // eslint-disable-next-line
-    [])
+        // eslint-disable-next-line
+        [])
 
     const [form] = Form.useForm()
     const init = {
-        "name": "dasd",
-        "course": "asd",
-        "year_level": "ads",
+        "name": "",
+        "course": "",
+        "year_level": "",
         "birthdate": "",
-        "parent": "asd",
-        "parent_contact": "asd"
+        "parent": "",
+        "parent_contact": "",
+        "username": "",
+        "password": "123456789"
     }
     // eslint-disable-next-line
     const [selectedFile, setselectedFile] = useState(null)
@@ -115,118 +160,167 @@ export default function Students() {
 
     function clear() {
         setshowadd(false)
+        setselStud(null)
         form.resetFields()
         setimageUrl('')
         setselectedFileList([])
     }
-    const [data, setdata] = useState(null)
     const [saving, setsaving] = useState(false)
 
     async function Add(file, values) {
         try {
-          if (file !== null) {
-            const formData = new FormData();
+            if (file !== null) {
+                const formData = new FormData();
+                formData.append("File", file);
+                formData.append("body", JSON.stringify(values));
+
+                await AddStudent(formData)
+                    .then(res => {
+                        console.log(res.data)
+                        if (res.data.isAdded) {
+                            notification.success({
+                                message: "Student Successfully Added!",
+                                placement: "topRight"
+                            })
+                            setStudents()
+                            setTimeout(() => {
+                                setsaving(false)
+                                clear()
+                            }, 1500)
+                        } else {
+                            notification.warning({
+                                message: res.data.msg,
+                                placement: "topRight"
+                            })
+                            setTimeout(() => {
+                                setsaving(false)
+                            }, 1500)
+                        }
+                    }).catch(err => {
+                        console.error(err.message)
+                        setsaving(false)
+                        notification.error({
+                            message: "Server Error! please try again later!",
+                            placement: "topRight"
+                        })
+                    })
+            } else {
+                notification.info({
+                    message: "Please insert/select a image!"
+                })
+            }
+        } catch (err) {
+            console.log(err.message)
+            setsaving(false)
+        }
+    }
+
+    async function Update(file, values, selStud) {
+        let formData = new FormData();     
+        values._id = selStud._id
+        if(file==null){
+            formData.append("body", JSON.stringify(values));
+        } else {
+            if(imageUrl!==""){ values.image = imageUrl; values.updateImage = true }
             formData.append("File", file);
             formData.append("body", JSON.stringify(values));
-    
-            await AddStudent(formData)
-              .then(res => {
-                console.log(res.data)
-                if (res.data.isAdded) {
-                  notification.success({
-                    message: "Student Successfully Added!",
-                    placement: "topRight"
-                  })
-                  setStudents()
-                  setTimeout(() => {
-                    setsaving(false)
-                    clear()
-                  }, 1500)
-                } else {
-                  notification.warning({
-                    message: res.data.msg,
-                    placement: "topRight"
-                  })
-                  setTimeout(() => {
-                    setsaving(false)
-                  }, 1500)
-                }
-              }).catch(err => {
-                console.error(err.message)
-                setsaving(false)
-                notification.error({
-                  message: "Server Error! please try again later!",
-                  placement: "topRight"
-                })
-              })
-          } else {
-            notification.info({
-              message: "Please insert/select a product image!"
-            })
-          }
-        } catch (err) {
-          console.log(err.message)
-          setsaving(false)
         }
-      }
+        await UpdateStudent(formData)
+        .then(res=>{
+            if(res.data.updated){
+                alert("Successfully Updated!")
+                setStudents()
+                clear()
+            } else {
+                alert("Unable to update, Please try again later!")
+            }
+            setsaving(false)
+        }).catch(err=>{
+            alert(err.message)
+            setsaving(false)
+        })
 
-    async function Update(){
-
+        
     }
 
     async function Submit(what, values) {
         try {
-          setsaving(true)
-          if (what === "Update") {
-            Update(selectedFile, values, data)
-          } else {
-            Add(selectedFile, values)
-          }
+            setsaving(true)
+            console.log(values)
+            if (what === "Update") {
+                Update(selectedFile, values, selStud)
+            } else {
+                Add(selectedFile, values)
+            }
         } catch (err) {
-          console.log(err.message)
-          console.log(" here")
+            console.log(err.message)
+            console.log(" here")
         }
     }
-    
+
     return <>
         <Modal
             title="Add Student"
-            onCancel={() => { 
-                setshowadd(false)
-                clear() }}
-            open={showadd}
-            onOk={() => {
-                form.submit()
+            onCancel={() => {
+                if(!saving){
+                    setshowadd(false)
+                    clear()
+                }
             }}
-            okText="Submit"
+            open={showadd}
+            footer={[
+                <center>
+                    <Button
+                        type={"danger"}
+                        onClick={() => {
+                            setshowadd(false)
+                            clear()
+                        }}
+                    >
+                        CANCEL
+                    </Button>
+                    <Button
+                        type={"primary"}
+                        loading={saving}
+                        onClick={() => {
+                            form.submit()
+                        }}
+                    >
+                        {
+                            selStud === null ? saving? "SUBMITTING" : "SUBMIT" : saving? "UPDATING" : "UPDATE"
+                        }
+                    </Button>
+                </center>
+            ]}
         >
             <Form
                 form={form}
                 initialValues={init}
                 onFinish={async (values) => {
                     console.log(values)
-                    if (data === null) {
+                    if (selStud === null) {
                         if (imageUrl === "" && selectedFile === null) {
-                          notification.warning({
-                            message: "Please select/insert a product image to upload!",
-                            placement: "topRight"
-                          })
+                            notification.warning({
+                                message: "Please select/insert a product image to upload!",
+                                placement: "topRight"
+                            })
                         } else {
-                          await Submit("Add", values)
+                            values.image = imageUrl
+                            await Submit("Add", values)
                         }
-                      }
-                      //update
-                      else {
+                    }
+                    //update
+                    else {
                         if (imageUrl === "" && selectedFile === null) {
-                          //dont update image
-                          await Submit("Update", values, false)
+                            //dont update image
+                            await Submit("Update", values, false)
                         } else {
-                          //update image
-                          await Submit("Update", values, true)
+                            //update image
+                            await Submit("Update", values, true)
                         }
-                      }
-      
-                    
+                    }
+
+
                 }}
                 onFinishFailed={err => {
                     console.log(err)
@@ -238,6 +332,8 @@ export default function Students() {
             >
                 <Row gutter={[24, 5]}>
                     <Col xs={24}>
+                        <b>Basic Information</b>
+                        <hr/>
                         <center>
                             <Upload
                                 fileList={selectedFileList}
@@ -247,18 +343,18 @@ export default function Students() {
                                     onChange(e)
                                 }}
                             >
-                                
-                                    <Col xs={24} >
-                                        <Image
-                                            style={{ pointer: "cursor" }}
-                                            width={200}
-                                            height={200}
-                                            src={imageUrl}
-                                            fallback={logo}
-                                            preview={false}
-                                        />
-                                    </Col>
-                                
+
+                                <Col xs={24} >
+                                    <Image
+                                        style={{ pointer: "cursor", borderRadius: 100 }}
+                                        width={200}
+                                        height={200}
+                                        src={selStud === null ? imageUrl : imageUrl!==""? imageUrl : selStud.image}
+                                        fallback={logo}
+                                        preview={false}
+                                    />
+                                </Col>
+
                                 <center>
                                     <Button type="link" style={{ color: "black" }} >
                                         <ToTopOutlined style={{ fontSize: 20, color: "green" }} /> {"SELECT AN IMAGE"}
@@ -298,7 +394,29 @@ export default function Students() {
                                 { required: true, message: "Please fill in this field!" },
                             ]}
                         >
-                            <Input type="text" placeholder="" />
+                            <Select
+                                style={{
+                                    width: "100%",
+                                }}
+                                options={[
+                                    {
+                                        label: 'I',
+                                        value: 'I',
+                                    },
+                                    {
+                                        label: 'II',
+                                        value: 'II',
+                                    },
+                                    {
+                                        label: 'III',
+                                        value: 'III',
+                                    },
+                                    {
+                                        label: 'IV',
+                                        value: 'IV',
+                                    },
+                                ]}
+                            />
                         </Form.Item>
                     </Col>
                     <Col xs={24}>
@@ -332,6 +450,33 @@ export default function Students() {
                             ]}
                         >
                             <Input type="text" placeholder="e.g.09123456789" />
+                        </Form.Item>
+                    </Col>
+                    
+                    <Col xs={24}>
+                        <b>Account Details</b>
+                        <hr/>
+                    </Col>
+                    <Col xs={24}>
+                        <Form.Item
+                            name="username"
+                            label="Username"
+                            rules={[
+                                { required: true, message: "Please enter username!" },
+                            ]}
+                        >
+                            <Input type="text" placeholder="username" />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24}>
+                        <Form.Item
+                            name="password"
+                            label="Password"
+                            rules={[
+                                { required: true, message: "Please enter password!" },
+                            ]}
+                        >
+                            <Input.Password size="small" placeholder="password" />
                         </Form.Item>
                     </Col>
                 </Row>
