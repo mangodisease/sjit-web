@@ -22,6 +22,13 @@ export async function loginAPI(col, username, password) {
 }
 
 
+export async function getTeacherSchedules(_id) {
+    return api_url.post("/get", {
+        col: "class_schedule",
+        query: { teacher: _id }, select: "", join: ""
+    })
+}
+
 export async function getAllSchedules() {
     return api_url.post("/get", {
         col: "class_schedule",
@@ -94,6 +101,13 @@ export async function UpdateTeacher(data, query) {
         col: "teachers",
         data: data,
         query: query
+    })
+}
+
+export async function getEnrolledStudentsByScheduleAndTeacher(cs, t) {
+    return api_url.post("/get", {
+        col: "enrolled",
+        query: { "class_schedule": cs, "teacher": t}, select: "", join: "student"
     })
 }
 

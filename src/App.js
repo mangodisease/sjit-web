@@ -13,13 +13,14 @@ import { useEffect, useState } from "react";
 import Students from "./pages/Students";
 import Schedules from "./pages/Schedules";
 import Enrollment from "./pages/Enrollment";
+import MySchedules from "./pages/MySchedules";
 function App() {
   const [user, setuser] = useState(null)
   const location = useLocation()
-  const [loginAs, setloginAs] = useState("")
+  const [loginAs, setloginAs] = useState("Teachers")
   const [open, setopen] = useState(true)
 
-  function getCachedUser(){
+  function getCachedUser() {
     try {
       const l = localStorage.getItem("user")
       return JSON.parse(l)
@@ -28,28 +29,49 @@ function App() {
       return undefined
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     const u = getCachedUser()
-    if(u!==undefined){
+    if (u !== undefined) {
       setuser(u)
     }
   },
-  []
+    []
   )
-  
+
   return (
     <div className="App">
       <Switch>
-        <Route path={["/sign-in", "/"]} exact component={()=>{ return <Login  setuser={setuser} open={open} setopen={setopen} loginAs={loginAs} setloginAs={setloginAs} /> }} />
-          <Main>
-            <Route exact path="/class-schedule" component={()=>{ return <Schedules user={user} />}} />
-            <Route exact path="/enroll-student" component={()=>{ return <Enrollment />}} />
-            <Route exact path="/students" component={()=>{ return <Students /> }} />
-            <Route exact path="/teachers" component={()=>{ return <Teachers />}} />
-            <Route exact path="/attendance" component={()=>{ return <Home />}} />
-            
-            <Redirect from="*" to={location.pathname} />
-          </Main>
+        <Route path={["/sign-in", "/"]} exact component={() => { return <Login setuser={setuser} open={open} setopen={setopen} loginAs={loginAs} setloginAs={setloginAs} /> }} />
+        <Main loginAs={loginAs} user={user}>
+          {
+            loginAs === "Admin" ?
+              <>
+                <Route exact path="/class-schedule" component={() => { return <Schedules user={user} loginAs={loginAs} /> }} />
+                <Route exact path="/enroll-student" component={() => { return <Enrollment  user={user} loginAs={loginAs}/> }} />
+                <Route exact path="/students" component={() => { return <Students  user={user} loginAs={loginAs}/> }} />
+                <Route exact path="/teachers" component={() => { return <Teachers  user={user} loginAs={loginAs}/> }} />
+                <Route exact path="/attendance" component={() => { return <Home  user={user} loginAs={loginAs}/> }} />
+              </>
+              :
+            loginAs === "Teachers" ?
+              <>
+                <Route exact path="/my-class" component={() => { return <MySchedules user={user} loginAs={loginAs} /> }} />
+                <Route exact path="/my-students" component={() => { return <Students  user={user} loginAs={loginAs}/> }} />
+                <Route exact path="/my-class-attendance" component={() => { return <Home  user={user} loginAs={loginAs}/> }} />
+              </>
+              :
+            loginAs === "Students" ?
+              <>
+                <Route exact path="/my-schedule" component={() => { return <Schedules user={user} /> }} />
+                <Route exact path="/my-attendance" component={() => { return <Home /> }} />
+              </>
+              :
+              <>
+
+              </>
+          }
+          <Redirect from="*" to={loginAs === "" ? "/sign-in" : location.pathname} />
+        </Main>
       </Switch>
     </div>
   );

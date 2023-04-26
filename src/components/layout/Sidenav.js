@@ -77,14 +77,52 @@ function Sidenav({ color, loginAs }) {
     },
   ];
 
+  const teachersL = [
+    {
+      to: "/my-class",
+      icon: "📅",
+      label: "My Class - Schedule",
+    },
+    {
+      to: "/my-students",
+      icon: profile,
+      label: "Students",
+    },
+    {
+      to: "/my-class-attendance",
+      icon: tables,
+      label: "Attendance Logs",
+    },
+  ];
+
+  const studentsL = [
+    {
+      to: "/my-schedule",
+      icon: "📅",
+      label: "Class - Schedule",
+    },
+    {
+      to: "/my-attendance",
+      icon: tables,
+      label: "Attendance Logs",
+    }
+  ];
+
   function SidebarMenu(links){
     try {
       let urls = null
 
       if(loginAs==="Admin"){
         urls = adminL
-      } else {
-        urls = adminL
+      } 
+      else if(loginAs==="Teachers"){
+        urls = teachersL
+      } 
+      else if(loginAs==="Students"){
+        urls = studentsL
+      } 
+      else {
+        urls = null
       }
 
       return <>

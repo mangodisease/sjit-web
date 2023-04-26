@@ -7,7 +7,7 @@ import Footer from "./Footer";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children }) {
+function Main({ children, loginAs, user }) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#006400");
@@ -62,7 +62,7 @@ function Main({ children }) {
             }`}
             style={{ background: sidenavType }}
           >
-            <Sidenav color={sidenavColor} />
+            <Sidenav color={sidenavColor} loginAs={loginAs} />
           </Sider>
         </Layout>
       </Drawer>
@@ -80,7 +80,7 @@ function Main({ children }) {
         }`}
         style={{ background: sidenavType }}
       >
-        <Sidenav color={sidenavColor} />
+        <Sidenav color={sidenavColor} loginAs={loginAs} />
       </Sider>
       <Layout>
         {fixed ? (
