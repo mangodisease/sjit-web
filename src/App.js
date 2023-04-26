@@ -39,13 +39,14 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path="/sign-in" exact component={()=>{ return <Login  setuser={setuser} open={open} setopen={setopen} loginAs={loginAs} setloginAs={setloginAs} /> }} />
+        <Route path={["/sign-in", "/"]} exact component={()=>{ return <Login  setuser={setuser} open={open} setopen={setopen} loginAs={loginAs} setloginAs={setloginAs} /> }} />
           <Main>
             <Route exact path="/class-schedule" component={()=>{ return <Schedules user={user} />}} />
             <Route exact path="/enroll-student" component={()=>{ return <Enrollment />}} />
             <Route exact path="/students" component={()=>{ return <Students /> }} />
             <Route exact path="/teachers" component={()=>{ return <Teachers />}} />
             <Route exact path="/attendance" component={()=>{ return <Home />}} />
+            
             <Redirect from="*" to={location.pathname} />
           </Main>
       </Switch>

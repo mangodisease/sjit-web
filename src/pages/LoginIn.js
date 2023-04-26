@@ -47,6 +47,7 @@ export default function Login(props) {
 
     return <>
         <Modal
+            centered
             width={"auto"}
             title={<center><b>Login as 🤔? </b></center>}
             closable={false}
@@ -65,7 +66,7 @@ export default function Login(props) {
                         }}
                     >
                         <center style={{ marginTop: 17 }}>
-                            <b>👨‍💼 ADMIN</b>
+                            <b>🔒 ADMIN</b>
                         </center>
                     </Card>
                 </Col>
@@ -77,7 +78,7 @@ export default function Login(props) {
                         }}
                     >
                         <center style={{ marginTop: 17 }}>
-                            <b>🧑‍🏫 TEACHER</b>
+                            <b>👩‍🏫 TEACHER</b>
                         </center>
                     </Card>
                 </Col>
@@ -89,7 +90,7 @@ export default function Login(props) {
                         }}
                     >
                         <center style={{ marginTop: 17 }}>
-                            <b>🧑‍🎓 STUDENT</b>
+                            <b>👨‍🎓 STUDENT</b>
                         </center>
                     </Card>
                 </Col>
