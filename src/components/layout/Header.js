@@ -117,6 +117,7 @@ function Header({
   handleSidenavColor,
   handleSidenavType,
   handleFixedNavbar,
+  setuser
 }) {
   const { Title, Text } = Typography;
 
@@ -143,7 +144,7 @@ function Header({
               {name.replace("/", "")}
             </Breadcrumb.Item>
           </Breadcrumb>
-          <div className="ant-page-header-heading">
+          <div className="ant-page-header-heading" hidden>
             <span
               className="ant-page-header-heading-title"
               style={{ textTransform: "capitalize" }}
@@ -179,7 +180,8 @@ function Header({
           onClick={()=>{
             const conf = window.confirm("Are you sure you want to logout?")
             if(conf){
-              alert("logout!")
+              localStorage.removeItem("user")
+              setuser(null)
             }
           }}
           >

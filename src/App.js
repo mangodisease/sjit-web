@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Switch, Route, Redirect, useLocation } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation, useHistory } from "react-router-dom";
 import Home from "./pages/Home";
 import Tables from "./pages/Tables";
 //import SignIn from "./pages/SignIn";
@@ -15,7 +15,8 @@ import Schedules from "./pages/Schedules";
 import Enrollment from "./pages/Enrollment";
 import MySchedules from "./pages/MySchedules";
 function App() {
-  const [user, setuser] = useState(null)
+  const history = useHistory()
+  const [user, setuser] = useState({})//null
   const location = useLocation()
   const [loginAs, setloginAs] = useState("Teachers")
   const [open, setopen] = useState(true)
@@ -26,23 +27,35 @@ function App() {
       return JSON.parse(l)
     } catch (err) {
       console.log(err.message)
-      return undefined
+      return null
     }
   }
   useEffect(() => {
     const u = getCachedUser()
-    if (u !== undefined) {
-      setuser(u)
+    if (u !== null) {
+      //setuser(u)
     }
+    history.push(redirect())
   },
     []
   )
 
+  function redirect(){
+    try {
+      if(loginAs==="Admin"){ return "/class-schedule" }
+      else if(loginAs==="Teachers"){ return "/my-class" }
+      else if(loginAs==="Students"){ return "/my-schedule" }
+      else { return "/" }
+    } catch (err) {
+      console.log(err.message)
+      return location.pathname
+    }
+  }
   return (
     <div className="App">
       <Switch>
         <Route path={["/sign-in", "/"]} exact component={() => { return <Login setuser={setuser} open={open} setopen={setopen} loginAs={loginAs} setloginAs={setloginAs} /> }} />
-        <Main loginAs={loginAs} user={user}>
+        <Main loginAs={loginAs} user={user} setuser={setuser}>
           {
             loginAs === "Admin" ?
               <>
@@ -70,7 +83,7 @@ function App() {
 
               </>
           }
-          <Redirect from="*" to={loginAs === "" ? "/sign-in" : location.pathname} />
+          <Redirect from="*" to={location.pathname} />
         </Main>
       </Switch>
     </div>

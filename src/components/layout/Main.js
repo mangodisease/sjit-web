@@ -7,7 +7,7 @@ import Footer from "./Footer";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children, loginAs, user }) {
+function Main({ children, loginAs, user, setuser }) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#006400");
@@ -93,6 +93,7 @@ function Main({ children, loginAs, user }) {
                 handleSidenavColor={handleSidenavColor}
                 handleSidenavType={handleSidenavType}
                 handleFixedNavbar={handleFixedNavbar}
+                setuser={setuser}
               />
             </AntHeader>
           </Affix>
@@ -105,6 +106,7 @@ function Main({ children, loginAs, user }) {
               handleSidenavColor={handleSidenavColor}
               handleSidenavType={handleSidenavType}
               handleFixedNavbar={handleFixedNavbar}
+              setuser={setuser}
             />
           </AntHeader>
         )}
