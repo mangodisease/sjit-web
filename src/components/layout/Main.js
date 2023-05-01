@@ -7,7 +7,7 @@ import Footer from "./Footer";
 
 const { Header: AntHeader, Content, Sider } = Layout;
 
-function Main({ children, loginAs, user, setuser }) {
+function Main({ children, loginAs, user, setuser, setloginAs, setopen }) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#006400");
@@ -62,7 +62,7 @@ function Main({ children, loginAs, user, setuser }) {
             }`}
             style={{ background: sidenavType }}
           >
-            <Sidenav color={sidenavColor} loginAs={loginAs} />
+            <Sidenav color={sidenavColor} user={user} loginAs={loginAs} />
           </Sider>
         </Layout>
       </Drawer>
@@ -80,7 +80,7 @@ function Main({ children, loginAs, user, setuser }) {
         }`}
         style={{ background: sidenavType }}
       >
-        <Sidenav color={sidenavColor} loginAs={loginAs} />
+        <Sidenav color={sidenavColor} user={user} loginAs={loginAs} />
       </Sider>
       <Layout>
         {fixed ? (
@@ -94,6 +94,8 @@ function Main({ children, loginAs, user, setuser }) {
                 handleSidenavType={handleSidenavType}
                 handleFixedNavbar={handleFixedNavbar}
                 setuser={setuser}
+                setloginAs={setloginAs}
+                setopen={setopen}
               />
             </AntHeader>
           </Affix>
@@ -107,6 +109,8 @@ function Main({ children, loginAs, user, setuser }) {
               handleSidenavType={handleSidenavType}
               handleFixedNavbar={handleFixedNavbar}
               setuser={setuser}
+              setloginAs={setloginAs}
+              setopen={setopen}
             />
           </AntHeader>
         )}

@@ -21,6 +21,7 @@ import {
 
 import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const ButtonContainer = styled.div`
   .ant-btn-primary {
@@ -117,12 +118,13 @@ function Header({
   handleSidenavColor,
   handleSidenavType,
   handleFixedNavbar,
-  setuser
+  setuser,
+  setloginAs,
+  setopen
 }) {
-  const { Title, Text } = Typography;
 
+  const history = useHistory()
   const [visible, setVisible] = useState(false);
-  const [sidenavType, setSidenavType] = useState("transparent");
 
   useEffect(() => window.scrollTo(0, 0));
 
@@ -181,7 +183,11 @@ function Header({
             const conf = window.confirm("Are you sure you want to logout?")
             if(conf){
               localStorage.removeItem("user")
+              localStorage.removeItem("loginAs")
+              setopen(true)
+              setloginAs("")
               setuser(null)
+              history.push("/")
             }
           }}
           >

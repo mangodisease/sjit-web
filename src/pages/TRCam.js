@@ -5,10 +5,11 @@ import { useState } from "react";
 import { Row, Col, notification, Button, Image, Alert } from "antd";
 import { isMobile } from "react-device-detect";
 import axios from "axios";
+import moment from "moment";
 
-export default function Schedule(){
-
-    const uri = "https://sjit-attendance-api.herokuapp.com/test-attendance"
+export default function TRCam(props){
+    const { student_id, what, teacher_id, class_schedule_id, class_schedule_time} = props
+    const uri = false ? "https://sjit-attendance-api.herokuapp.com/attendance-check" : "http://localhost:5000/attendance-check"
 
     const videoConstraints = {
         width: isMobile? "auto" : 500,
@@ -36,17 +37,25 @@ export default function Schedule(){
           onSuccess("ok");
         }, 0);
       };
-    // eslint-disable-next-line
+      // eslint-disable-next-line
       const getBase64 = (img, callback) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
       };
+
       const Attend = async (file) => {
         try {
-    
+          const val = {
+              student_id: student_id, teacher_id: teacher_id,
+              class_schedule_id: class_schedule_id,
+              class_schedule_time: moment(class_schedule_time).format("hh:mm:ss"), 
+              what: what
+          }
+          console.log(val)
           var formData = new FormData();
           formData.append("File", file);
+          formData.append("val", JSON.stringify(val))
           await axios.post(uri, formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
@@ -76,14 +85,23 @@ export default function Schedule(){
                 result!==null&&
                 <Alert message={
                     <center>
-                        Successfully Attended! <br/>
-                        {JSON.stringify(result)}
+                        {result.msg}<br/>
+                        <>
+                        {
+                          result.msg.includes("Successfully Participated!")&&
+                          <>
+                          {result.time}<br/>
+                          {result.name}<br/>
+                          <small>with {result.confidence} confidence rate!</small>
+                          </>
+                        }
+                        </>
                     </center>
                 }
-                type="success"/>
+                type={result.msg.includes("Successfully Participated!")? "success" : "error"}/>
             }
             <center>
-                Sample Attendance Face Recognition<br/><br/>
+                <b>{what}</b><br/><br/>
                 {
                     predicting?
                     <Col xs={24}>

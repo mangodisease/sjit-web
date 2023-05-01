@@ -7,7 +7,8 @@ import { ToTopOutlined } from "@ant-design/icons";
 import moment from "moment";
 
 export default function MySchedules(props) {
-    const teacher_id = "64217ee31bd8195e3cf3b64c" //user._id
+    const { user } = props
+    const teacher_id = user._id
     function DisplayTime(val) {
         try {
             return <>{moment(val.time[0]).format("hh:mm A")} - {moment(val.time[1]).format("hh:mm A")}</>

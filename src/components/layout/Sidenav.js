@@ -1,12 +1,12 @@
 /* eslint-disable */
-import { Menu, Button } from "antd";
+import { Menu, Button, Image } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/favicon.png";
 
-function Sidenav({ color, loginAs }) {
+function Sidenav({ color, loginAs, user }) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
-
+  console.log(user)
 
   const tables = [
     <svg
@@ -108,32 +108,32 @@ function Sidenav({ color, loginAs }) {
     }
   ];
 
-  function SidebarMenu(links){
+  function SidebarMenu(links) {
     try {
       let urls = null
 
-      if(loginAs==="Admin"){
+      if (loginAs === "Admin") {
         urls = adminL
-      } 
-      else if(loginAs==="Teachers"){
+      }
+      else if (loginAs === "Teacher") {
         urls = teachersL
-      } 
-      else if(loginAs==="Students"){
+      }
+      else if (loginAs === "Student") {
         urls = studentsL
-      } 
+      }
       else {
         urls = null
       }
 
       return <>
-      {urls!==null&&urls.map((val, i) => {
+        {urls !== null && urls.map((val, i) => {
           return (
             <Menu.Item key={i}>
               <NavLink to={val.to}>
                 <span
                   className="icon"
                   style={{
-                    background: page === val.to.replace("/","")? color : "",
+                    background: page === val.to.replace("/", "") ? color : "",
                   }}
                 >
                   {val.icon}
@@ -157,6 +157,7 @@ function Sidenav({ color, loginAs }) {
         <span>Attendance Monitoring</span>
       </div>
       <hr />
+
       <Menu theme="light" mode="inline">
         {SidebarMenu()}
       </Menu>
@@ -167,9 +168,14 @@ function Sidenav({ color, loginAs }) {
             background: color,
           }}
         >
-          <span className="icon" style={{ color }}>
-            <img src={logo} alt={"SJIT"}/>
-          </span>
+
+          <center>
+            <Image src={loginAs!=="Admin"? user.image : logo} width={55} height={55} style={{ borderRadius: 50 }} />  <br />
+            <b> {loginAs!=="Admin"? user.name : "Admin"}</b> <br />
+            <small>{loginAs==="Teacher"&&user.designation}</small>
+            <small>{loginAs==="Student"&&`${user.course} | ${user.year_level}`}</small>
+          </center>
+          <hr />
           <h6>Need Help?</h6>
           <p>Please check our docs</p>
           <Button type="primary" className="ant-btn-sm ant-btn-block">

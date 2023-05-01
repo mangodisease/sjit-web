@@ -8,8 +8,18 @@ import { useHistory } from "react-router-dom";
 export default function Login(props) {
     const history = useHistory()
 
-    const { loginAs, setloginAs, open, setopen, setuser } = props
-
+    const {  loginAs, setloginAs, open, setopen, user, setuser } = props
+    function redirect(){
+        try {
+          if(user!==null && loginAs ==="Admin"){ return "/class-schedule" }
+          else if(user!==null && loginAs ==="Teacher"){ return "/my-class" }
+          else if(user!==null && loginAs ==="Student"){ return "/my-schedule" }
+          else { return "/" }
+        } catch (err) {
+          console.log(err.message)
+          return location.pathname
+        }
+      }
     const onFinish = async (values) => {
         console.log('Success:', values);
         delete values.remember
@@ -17,7 +27,7 @@ export default function Login(props) {
         let col = "user"
         if(loginAs!==""){
             if(loginAs==="Admin"){
-                col = "user"
+                col = "users"
             } else {
                 col = `${loginAs.toLowerCase()}s`
             }
@@ -27,14 +37,15 @@ export default function Login(props) {
         .then(res=>{
             const data = res.data
             console.log(data)
-            alert(data.msg)
             if(data.login){
                 setuser(data.user)
                 localStorage.setItem("user", JSON.stringify(data.user))
+                localStorage.setItem("loginAs", loginAs)
                 //change depending on loginAs
-
-                history.push("/class-schedule")
+                console.log(redirect(user, loginAs))
+                history.push(redirect(user, loginAs))
             }
+            alert(data.msg)
         }).catch(err=>{
             console.log(err.message)
             alert("Invalid username or password! Please try again later.")

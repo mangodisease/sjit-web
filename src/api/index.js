@@ -2,7 +2,7 @@
 import { data } from "autoprefixer"
 import axios from "axios"
 
-const baseURL = true ? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
+const baseURL = false ? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
 
 const JWT = localStorage.getItem("JWT")
 
@@ -21,6 +21,12 @@ export async function loginAPI(col, username, password) {
     })
 }
 
+export async function getStudentEnrolledSchedules(_id) {
+    return api_url.post("/get", {
+        col: "enrolled",
+        query: { student: _id }, select: "", join: "class_schedule teacher"
+    })
+}
 
 export async function getTeacherSchedules(_id) {
     return api_url.post("/get", {
@@ -28,7 +34,7 @@ export async function getTeacherSchedules(_id) {
         query: { teacher: _id }, select: "", join: ""
     })
 }
-
+//admin=
 export async function getAllSchedules() {
     return api_url.post("/get", {
         col: "class_schedule",
