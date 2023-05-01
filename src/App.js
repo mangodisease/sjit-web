@@ -60,14 +60,14 @@ function App() {
           <Route exact path="/enroll-student" component={() => { return <Enrollment user={user} loginAs={loginAs} /> }} />
           <Route exact path="/students" component={() => { return <Students user={user} loginAs={loginAs} /> }} />
           <Route exact path="/teachers" component={() => { return <Teachers user={user} loginAs={loginAs} /> }} />
-          <Route exact path="/attendance" component={() => { return <Home user={user} loginAs={loginAs} /> }} />
+          <Route exact path="/attendance" component={() => { return <AttendanceLogs user={user} loginAs={loginAs} />}} />
 
           <Route exact path="/my-class" component={() => { return <MySchedules user={user} loginAs={loginAs} /> }} />
           <Route exact path="/my-students" component={() => { return <Students user={user} loginAs={loginAs} /> }} />
-          <Route exact path="/my-class-attendance" component={() => { return <Home user={user} loginAs={loginAs} /> }} />
+          <Route exact path="/my-class-attendance" component={() => { return <AttendanceLogs user={user} loginAs={loginAs} /> }} />
 
           <Route exact path="/my-schedule" component={() => { return <MyClass user={user} /> }} />
-          <Route exact path="/my-attendance" component={() => { return <AttendanceLogs /> }} />
+          <Route exact path="/my-attendance" component={() => { return <AttendanceLogs user={user} loginAs={loginAs} /> }} />
           <Redirect from="*" to={location.pathname} />
         </Main>
       </Switch>

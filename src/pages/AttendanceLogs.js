@@ -7,11 +7,14 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 
 export default function AttendanceLogs(props) {
-    const { user } = props
+    const { user, loginAs } = props
     
     const [show, setshow] = useState(false)
     const [list, setlist] = useState(null)
-    
+    const [reslist, setreslist] = useState(null)
+
+    const [schedules, setschedules] = useState(null)
+    const [teachers, setteachers] = useState(null)
 
     function DisplayTime(val) {
         try {
@@ -31,33 +34,31 @@ export default function AttendanceLogs(props) {
         }
     }
 
-   
-    function clear(){
-        setshow(false)
-    }
-    const columns = [
+    const adminCol = [
         {
-            title: "Subject",
+            title: "Date/Time Attended",
             render: val => (
-                <span>{val.class_schedule.subject}</span>
+                <span>
+                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br/>
+                </span>
             )
         },
         {
-            title: "Year Level",
+            title: "Subject/Schedule",
             render: val => (
-                <span> {val.class_schedule.year_level}</span>
+                <span>
+                    {val.class_schedule.subject} | 
+                    {DisplayDate(val.class_schedule)}<br/>
+                    {DisplayTime(val.class_schedule)}
+                </span>
             )
         },
         {
-            title: "Days",
+            title: <center>Student</center>,
             render: val => (
-                <span>{DisplayDate(val.class_schedule)}</span>
-            )
-        },
-        {
-            title: "Time",
-            render: val => (
-            <span>{DisplayTime(val.class_schedule)}</span>
+            <center>
+                {val.student.name}
+            </center>
             )
         },
         {
@@ -67,11 +68,108 @@ export default function AttendanceLogs(props) {
                 {val.teacher.name}
             </center>
             )
+        },
+        {
+            title: <center>Remarks</center>,
+            render: val => (
+            <center>
+                {val.remarks}
+            </center>
+            )
         }
     ]
-    
+
+    const teacherCol = [
+        {
+            title: "Date/Time Attended",
+            render: val => (
+                <span>
+                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br/>
+                </span>
+            )
+        },
+        {
+            title: "Subject/Schedule",
+            render: val => (
+                <span>
+                    {val.class_schedule.subject} | 
+                    {DisplayDate(val.class_schedule)}<br/>
+                    {DisplayTime(val.class_schedule)}
+                </span>
+            )
+        },
+        {
+            title: <center>Student</center>,
+            render: val => (
+            <center>
+                {val.student.name}
+            </center>
+            )
+        },
+        {
+            title: <center>Remarks</center>,
+            render: val => (
+            <center>
+                {val.remarks}
+            </center>
+            )
+        }
+    ]
+
+    const studentCol = [
+        {
+            title: "Date/Time Attended",
+            render: val => (
+                <span>
+                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br/>
+                </span>
+            )
+        },
+        {
+            title: "Subject/Schedule",
+            render: val => (
+                <span>
+                    {val.class_schedule.subject} | 
+                    {DisplayDate(val.class_schedule)}<br/>
+                    {DisplayTime(val.class_schedule)}
+                </span>
+            )
+        },
+        {
+            title: <center>Teacher</center>,
+            render: val => (
+            <center>
+                {val.teacher.name}
+            </center>
+            )
+        },
+        {
+            title: <center>Remarks</center>,
+            render: val => (
+            <center>
+                {val.remarks}
+            </center>
+            )
+        }
+        
+    ]
     async function setAttendanceLogs() {
-        await getAttendanceLogs({}, "", "")
+        let join = ""
+        let query = {}
+        if(loginAs==="Admin"){
+            join = "class_schedule teacher student"
+            query = {}
+        } else if(loginAs==="Teacher"){
+            join = "class_schedule student"
+            query = { teacher: user._id }
+        } else if(loginAs==="Student"){
+            join = "class_schedule teacher"
+            query = { student: user._id }
+        } else {
+            join = ""
+            query = {}
+        }
+        await getAttendanceLogs(query, "", join)
             .then(res => {
                 const data = res.data
                 console.log(data.result)
@@ -105,7 +203,7 @@ export default function AttendanceLogs(props) {
                     
                     <Table
                         className="ant-list-box table-responsive"
-                        columns={columns}
+                        columns={loginAs==="Admin"? adminCol : loginAs==="Teacher"? teacherCol : loginAs==="Student"? studentCol : null}
                         dataSource={list}
                     />
                 </Card>

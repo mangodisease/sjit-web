@@ -116,6 +116,8 @@ export default function Schedules() {
     const init = {
         "subject": "",
         "course": "",
+        "year_level": "",
+        "section": "",
         "teacher": [],
         "days": [],
         "time": "",
@@ -332,6 +334,14 @@ export default function Schedules() {
                                 placeholder="Please select year level"
                                 options={[
                                     {
+                                        label: "Grade 11",
+                                        value: "Grade 11"
+                                    },
+                                    {
+                                        label: "Grade 12",
+                                        value: "Grade 12"
+                                    },
+                                    {
                                         label: "I",
                                         value: "I"
                                     },
@@ -349,6 +359,18 @@ export default function Schedules() {
                                     }
                                 ]}
                             />
+                        </Form.Item>
+                    </Col>
+                    
+                    <Col xs={24}>
+                        <Form.Item
+                            name="section"
+                            label="Section"
+                            rules={[
+                                { required: true, message: "Please fill in this field!" },
+                            ]}
+                        >
+                            <Input type="text" placeholder="Section" />
                         </Form.Item>
                     </Col>
 
