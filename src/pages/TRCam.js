@@ -9,7 +9,7 @@ import moment from "moment";
 
 export default function TRCam(props){
     const { student_id, what, teacher_id, class_schedule_id, class_schedule_time} = props
-    const uri = false ? "https://sjit-attendance-api.herokuapp.com/attendance-check" : "http://localhost:5000/attendance-check"
+    const uri = true ? "https://sjit-attendance-api.herokuapp.com/attendance-check" : "http://localhost:5000/attendance-check"
 
     const videoConstraints = {
         width: isMobile? "auto" : 500,
