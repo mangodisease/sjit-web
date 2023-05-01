@@ -103,6 +103,7 @@ export default function Students() {
         "name": "",
         "course": "",
         "year_level": "",
+        "section": "",
         "birthdate": "",
         "parent": "",
         "parent_contact": "",
@@ -400,6 +401,14 @@ export default function Students() {
                                 }}
                                 options={[
                                     {
+                                        label: 'Grade 11',
+                                        value: 'Grade 11',
+                                    },
+                                    {
+                                        label: 'Grade 12',
+                                        value: 'Grade 12',
+                                    },
+                                    {
                                         label: 'I',
                                         value: 'I',
                                     },
@@ -417,6 +426,17 @@ export default function Students() {
                                     },
                                 ]}
                             />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24}>
+                        <Form.Item
+                            name="Section"
+                            label="Section"
+                            rules={[
+                                { required: false, message: "Please fill in this field!" },
+                            ]}
+                        >
+                            <Input type="text" placeholder="" />
                         </Form.Item>
                     </Col>
                     <Col xs={24}>

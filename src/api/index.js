@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { data } from "autoprefixer"
 import axios from "axios"
 
 const baseURL = true ? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
@@ -143,5 +142,12 @@ export async function RemoveEnrolledSchedule(_id) {
     return api_url.post("/remove", {
         col: "enrolled",
         _id: _id
+    })
+}
+
+export async function getAttendanceLogs(query, select, join) {
+    return api_url.post("/get", {
+        col: "attendance",
+        query: query, select: select, join: join
     })
 }

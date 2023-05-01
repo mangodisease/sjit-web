@@ -15,6 +15,7 @@ import Schedules from "./pages/Schedules";
 import Enrollment from "./pages/Enrollment";
 import MySchedules from "./pages/MySchedules";
 import MyClass from "./pages/MyClass";
+import AttendanceLogs from "./pages/AttendanceLogs";
 function App() {
   const history = useHistory()
   const [user, setuser] = useState(getCachedUser())//null
@@ -66,7 +67,7 @@ function App() {
           <Route exact path="/my-class-attendance" component={() => { return <Home user={user} loginAs={loginAs} /> }} />
 
           <Route exact path="/my-schedule" component={() => { return <MyClass user={user} /> }} />
-          <Route exact path="/my-attendance" component={() => { return <Home /> }} />
+          <Route exact path="/my-attendance" component={() => { return <AttendanceLogs /> }} />
           <Redirect from="*" to={location.pathname} />
         </Main>
       </Switch>
