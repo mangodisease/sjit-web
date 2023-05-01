@@ -2,7 +2,7 @@
 import { data } from "autoprefixer"
 import axios from "axios"
 
-const baseURL = false ? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
+const baseURL = true ? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
 
 const JWT = localStorage.getItem("JWT")
 
