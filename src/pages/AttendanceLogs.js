@@ -153,6 +153,7 @@ export default function AttendanceLogs(props) {
         }
         
     ]
+    
     async function setAttendanceLogs() {
         let join = ""
         let query = {}
@@ -169,6 +170,8 @@ export default function AttendanceLogs(props) {
             join = ""
             query = {}
         }
+        console.log(query)
+        console.log(join)
         await getAttendanceLogs(query, "", join)
             .then(res => {
                 const data = res.data
