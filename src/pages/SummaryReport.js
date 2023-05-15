@@ -30,9 +30,10 @@ export default function SummaryReport(props) {
             .then(res => {
                 const result = res.data.result
                 const rslt = result.filter(({ class_schedule }) => class_schedule._id === JSON.parse(selSched)._id)
+                setlist(rslt)
                 setpresent(rslt.filter(({ remarks }) => remarks === "PRESENT"))
                 setlate(rslt.filter(({ remarks }) => remarks.toLowerCase().includes("late")))
-                setlist(rslt)
+                
             }).catch(err => {
                 console.log(err.message)
                 setlist(null)
