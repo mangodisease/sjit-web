@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from "axios"
 
-const baseURL = true ? "https://sjit-attendance-api.herokuapp.com" : "http://localhost:5000"
+const baseURL = true ? "https://sjit-api-wk869.ondigitalocean.app" : "http://localhost:5000"
 
 const JWT = localStorage.getItem("JWT")
 
