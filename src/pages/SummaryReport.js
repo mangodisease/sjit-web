@@ -86,6 +86,8 @@ export default function SummaryReport(props) {
                                 setselDate(e)
                                 if (e === null) {
                                     setlist(null)
+                                    setlate([])
+                                    setpresent([])
                                 } else {
                                     await setAttendanceSummary(e, { class_schedule: JSON.parse(selSched)._id }, "", "teacher class_schedule student")
                                 }
