@@ -544,6 +544,7 @@ export default function Students() {
                     <Table
                         className="ant-list-box table-responsive"
                         columns={columns}
+                        loading={list===null}
                         dataSource={list}
                     />
                 </Card>

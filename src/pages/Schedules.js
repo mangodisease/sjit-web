@@ -542,6 +542,7 @@ export default function Schedules() {
                     <Table
                         className="ant-list-box table-responsive"
                         columns={columns}
+                        loading={list===null}
                         dataSource={list}
                     />
                 </Card>

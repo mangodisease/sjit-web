@@ -83,11 +83,13 @@ function Sidenav({ color, loginAs, user }) {
       icon: "📅",
       label: "My Class - Schedule",
     },
-    {
+    /**
+     * {
       to: "/my-students",
       icon: profile,
       label: "Students",
     },
+     */
     {
       to: "/my-class-attendance",
       icon: tables,

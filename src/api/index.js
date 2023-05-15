@@ -41,6 +41,13 @@ export async function getAllSchedules() {
     })
 }
 
+export async function getSchedules(query, select, join) {
+    return api_url.post("/get", {
+        col: "class_schedule",
+        query: query, select: select, join: join
+    })
+}
+
 export async function AddSchedule(data) {
     return api_url.post("/insert", {
         col: "class_schedule",
@@ -149,5 +156,12 @@ export async function getAttendanceLogs(query, select, join) {
     return api_url.post("/get", {
         col: "attendance",
         query: query, select: select, join: join
+    })
+}
+
+export async function getAttendanceSummary(date, csID, select, join) {
+    return api_url.post("/get-attendance-report", {
+        date: date,
+        csID: csID, select: select, join: join
     })
 }

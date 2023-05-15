@@ -16,6 +16,7 @@ import Enrollment from "./pages/Enrollment";
 import MySchedules from "./pages/MySchedules";
 import MyClass from "./pages/MyClass";
 import AttendanceLogs from "./pages/AttendanceLogs";
+import SummaryReport from "./pages/SummaryReport";
 function App() {
   const history = useHistory()
   const [user, setuser] = useState(getCachedUser())//null
@@ -64,7 +65,7 @@ function App() {
 
           <Route exact path="/my-class" component={() => { return <MySchedules user={user} loginAs={loginAs} /> }} />
           <Route exact path="/my-students" component={() => { return <Students user={user} loginAs={loginAs} /> }} />
-          <Route exact path="/my-class-attendance" component={() => { return <AttendanceLogs user={user} loginAs={loginAs} /> }} />
+          <Route exact path="/my-class-attendance" component={() => { return <SummaryReport user={user} loginAs={loginAs} /> }} />
 
           <Route exact path="/my-schedule" component={() => { return <MyClass user={user} /> }} />
           <Route exact path="/my-attendance" component={() => { return <AttendanceLogs user={user} loginAs={loginAs} /> }} />

@@ -433,6 +433,7 @@ export default function Enrollment() {
                     <Table
                         className="ant-list-box table-responsive"
                         columns={columnsS}
+                        loading={schedules===null}
                         dataSource={schedules}
                     />
                 </Card>
