@@ -59,7 +59,7 @@ export async function UpdateSchedule(data, query) {
 export async function getAllStudents() {
     return api_url.post("/get", {
         col: "students",
-        query: {}, select: ""
+        query: {}, select: "-descriptions"
     })
 }
 
