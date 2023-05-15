@@ -18,7 +18,8 @@ export default function Students() {
                     </Col>
                     <Col xs={24} lg={17}>
                         <span><b>Name: </b> {val.name}</span> <br />
-                        <span><b>Birthdate:</b> {moment(val.birthdate).format("MM-DD-YYYY")}</span>
+                        <span><b>Birthdate:</b> {moment(val.birthdate).format("MM-DD-YYYY")}</span><br />
+                        <span><b>Student ID: </b> {val.std_id}</span> 
                     </Col>
                 </Row>
             )
@@ -100,6 +101,7 @@ export default function Students() {
 
     const [form] = Form.useForm()
     const init = {
+        "std_id": "",
         "name": "",
         "course": "",
         "year_level": "",
@@ -364,6 +366,17 @@ export default function Students() {
                             </Upload>
 
                         </center>
+                    </Col>
+                    <Col xs={24}>
+                        <Form.Item
+                            name="std_id"
+                            label="Student ID"
+                            rules={[
+                                { required: true, message: "Please input student ID!" },
+                            ]}
+                        >
+                            <Input type="text" placeholder="" />
+                        </Form.Item>
                     </Col>
                     <Col xs={24}>
                         <Form.Item
