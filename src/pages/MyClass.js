@@ -104,12 +104,13 @@ export default function MyClass(props) {
             return <Row gutter={[24, 0]} style={{ marginBottom: 10 }}>
             {
                 cs!==null&&cs.map((val, k)=>{
-                    return <Col xs={12} lg={8} hidden={!val.class_schedule.days.includes(dayNow)} key={k}>
+                    return <Col xs={12} lg={8} hidden={!val.class_schedule.days.includes(dayNow)} key={k} style={{ marginBottom: 10 }}>
                         <Card
                         hoverable
                         style={{  }}
                         actions={[
-                            <Button type={"primary"} 
+                            <center><Button type={"primary"} 
+                            //style={{float: "right"}}
                             onClick={()=>{
                                 setshow(true)
                                 setwhat("Time In")
@@ -119,15 +120,7 @@ export default function MyClass(props) {
                             }}
                             >
                                 Time In
-                            </Button>,
-                            <Button danger
-                            onClick={()=>{
-                                setshow(true)
-                                setwhat("Time Out")
-                            }}
-                            >
-                                Time Out
-                            </Button>
+                            </Button></center>
                         ]}
                         >
                             <Row>

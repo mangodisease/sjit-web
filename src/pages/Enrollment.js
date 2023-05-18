@@ -64,11 +64,14 @@ export default function Enrollment() {
                         onClick={async () => {
                             try {
                                 const confirm = window.confirm("Are you sure?")
+                                console.log(val)
                                 const st = JSON.parse(selStud[0])._id
                                 const t = val.teacher._id
                                 const cs = val._id
-                                const duplicates = list.filter(({ student, teacher, class_schedule }) => st === student._id && t === teacher._id && cs === class_schedule._id)
-                                const noDuplicate = duplicates.length === 0
+                                console.log(list)
+                                //const duplicates = list.filter(({ student, teacher, class_schedule }) => st === student._id && t === teacher._id && cs === class_schedule._id)
+                               
+                                const noDuplicate = true//duplicates.length === 0
                                 if (confirm && noDuplicate) {
                                     setsaving(true)
                                     await EnrollStudent({
@@ -377,10 +380,14 @@ export default function Enrollment() {
 
     function enrolledSched() {
         try {
-            console.log(list !== null && selStud.length > 0 ? list.filter(({ student }) => student._id === JSON.parse(selStud[0])._id) : null)
-            console.log(JSON.parse(selStud[0])._id)
-            console.log(list)
-            return list !== null && selStud.length > 0 ? list.filter(({ student }) => student._id === JSON.parse(selStud[0])._id) : null
+            if(list!==null&&selStud.length > 0){
+                const st_id = JSON.parse(selStud[0])._id
+                console.log(st_id)
+                console.log(list.filter(({ student })=> student === null))
+                return list.filter(({ student }) => student._id === st_id )
+            } else {
+                return null
+            }
         } catch (err) {
             console.log(err.message)
             return null
