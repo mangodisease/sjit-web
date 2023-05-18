@@ -66,10 +66,14 @@ export async function UpdateSchedule(data, query) {
 export async function getAllStudents() {
     return api_url.post("/get", {
         col: "students",
-        query: {}, select: "-descriptions"
+        query: {}, select: "-descriptions -image"
     })
 }
-
+export async function getStudentImage(_id) {
+    return api_url.post("/get-student-image", {
+        _id: _id
+    })
+}
 export async function AddStudent(formData) {
     return axios({
         method: "post",

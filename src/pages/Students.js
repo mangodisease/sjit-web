@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Row, Col, Card, Button, Table, Modal, Form, Input, DatePicker, notification, Upload, Image, Select } from "antd";
-import { getAllStudents, AddStudent, UpdateStudent } from "../api";
+import { getAllStudents, AddStudent, UpdateStudent, getStudentImage } from "../api";
 import { useEffect, useState } from "react";
 import logo from "../assets/images/favicon.png"
 import { ToTopOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ export default function Students() {
             title: "Student",
             render: val => (
                 <Row>
-                    <Col xs={24} lg={7}>
+                    <Col xs={24} lg={7} hidden>
                         <Image src={`${val.image}`} width={60} height={60} style={{ borderRadius: 50 }} preview />
                     </Col>
                     <Col xs={24} lg={17}>
@@ -51,7 +51,19 @@ export default function Students() {
                         <Col lg={12} xs={24} style={{ marginBottom: 10 }}>
                             <Button
                                 type={"primary"}
-                                onClick={() => {
+                                onClick={async () => {
+                                    const image = await getStudentImage(val._id)
+                                    .then(res=>{
+                                        console.log(res.data)
+                                        return res.data.image
+                                    }).catch(err=>{
+                                        console.log(err.message)
+                                        return null
+                                    })
+                                    //console.log(image)
+                                    if(image!==null){
+                                        val.image = image
+                                    }
                                     setshowadd(true)
                                     val.birthdate = moment(val.birthdate)
                                     setselStud(val)
@@ -86,6 +98,7 @@ export default function Students() {
         await getAllStudents()
             .then(res => {
                 const data = res.data
+                console.log(data)
                 setlist(data.result)
             }).catch(err => {
                 console.log(err.message)

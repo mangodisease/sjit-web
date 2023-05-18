@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Row, Col, Card, Button, Table, Modal,  Image } from "antd";
+import { Row, Col, Card, Button, Table, Modal, Image } from "antd";
 import { getAttendanceLogs } from "../api";
 import { useEffect, useState } from "react";
 
@@ -8,7 +8,7 @@ import moment from "moment";
 
 export default function AttendanceLogs(props) {
     const { user, loginAs } = props
-    
+
     const [show, setshow] = useState(false)
     const [list, setlist] = useState(null)
     const [reslist, setreslist] = useState(null)
@@ -39,7 +39,7 @@ export default function AttendanceLogs(props) {
             title: "Date/Time Attended",
             render: val => (
                 <span>
-                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br/>
+                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br />
                 </span>
             )
         },
@@ -47,8 +47,8 @@ export default function AttendanceLogs(props) {
             title: "Subject/Schedule",
             render: val => (
                 <span>
-                    {val.class_schedule.subject} | 
-                    {DisplayDate(val.class_schedule)}<br/>
+                    {val.class_schedule.subject} |
+                    {DisplayDate(val.class_schedule)}<br />
                     {DisplayTime(val.class_schedule)}
                 </span>
             )
@@ -56,25 +56,23 @@ export default function AttendanceLogs(props) {
         {
             title: <center>Student</center>,
             render: val => (
-            <center>
-                {val.student.name}
-            </center>
+               <center>{val.student!==null? val.student.name : ""}</center>
             )
         },
         {
             title: <center>Teacher</center>,
             render: val => (
-            <center>
-                {val.teacher.name}
-            </center>
+                <center>
+                    {val.teacher.name}
+                </center>
             )
         },
         {
             title: <center>Remarks</center>,
             render: val => (
-            <center>
-                {val.remarks}
-            </center>
+                <center>
+                    {val.remarks}
+                </center>
             )
         }
     ]
@@ -84,7 +82,7 @@ export default function AttendanceLogs(props) {
             title: "Date/Time Attended",
             render: val => (
                 <span>
-                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br/>
+                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br />
                 </span>
             )
         },
@@ -92,8 +90,8 @@ export default function AttendanceLogs(props) {
             title: "Subject/Schedule",
             render: val => (
                 <span>
-                    {val.class_schedule.subject} | 
-                    {DisplayDate(val.class_schedule)}<br/>
+                    {val.class_schedule.subject} |
+                    {DisplayDate(val.class_schedule)}<br />
                     {DisplayTime(val.class_schedule)}
                 </span>
             )
@@ -101,17 +99,17 @@ export default function AttendanceLogs(props) {
         {
             title: <center>Student</center>,
             render: val => (
-            <center>
-                {val.student.name}
-            </center>
+                <center>
+                    {val.student.name}
+                </center>
             )
         },
         {
             title: <center>Remarks</center>,
             render: val => (
-            <center>
-                {val.remarks}
-            </center>
+                <center>
+                    {val.remarks}
+                </center>
             )
         }
     ]
@@ -121,7 +119,7 @@ export default function AttendanceLogs(props) {
             title: "Date/Time Attended",
             render: val => (
                 <span>
-                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br/>
+                    {moment(val.time).format("MMMM DD, YYYY @ hh:mm:ss A")}<br />
                 </span>
             )
         },
@@ -129,8 +127,8 @@ export default function AttendanceLogs(props) {
             title: "Subject/Schedule",
             render: val => (
                 <span>
-                    {val.class_schedule.subject} | 
-                    {DisplayDate(val.class_schedule)}<br/>
+                    {val.class_schedule.subject} |
+                    {DisplayDate(val.class_schedule)}<br />
                     {DisplayTime(val.class_schedule)}
                 </span>
             )
@@ -138,32 +136,32 @@ export default function AttendanceLogs(props) {
         {
             title: <center>Teacher</center>,
             render: val => (
-            <center>
-                {val.teacher.name}
-            </center>
+                <center>
+                    {val.teacher.name}
+                </center>
             )
         },
         {
             title: <center>Remarks</center>,
             render: val => (
-            <center>
-                {val.remarks}
-            </center>
+                <center>
+                    {val.remarks}
+                </center>
             )
         }
-        
+
     ]
-    
+
     async function setAttendanceLogs() {
         let join = ""
         let query = {}
-        if(loginAs==="Admin"){
-            join = "class_schedule teacher student"
+        if (loginAs === "Admin") {
+            join = "student class_schedule teacher"
             query = {}
-        } else if(loginAs==="Teacher"){
+        } else if (loginAs === "Teacher") {
             join = "class_schedule student"
             query = { teacher: user._id }
-        } else if(loginAs==="Student"){
+        } else if (loginAs === "Student") {
             join = "class_schedule teacher"
             query = { student: user._id }
         } else {
@@ -175,7 +173,7 @@ export default function AttendanceLogs(props) {
         await getAttendanceLogs(query, "", join)
             .then(res => {
                 const data = res.data
-                console.log(data.result)
+                console.log(data)
                 setlist(data.result)
             }).catch(err => {
                 console.log(err.message)
@@ -187,9 +185,9 @@ export default function AttendanceLogs(props) {
         await setAttendanceLogs()
     },
         // eslint-disable-next-line
-    [])
+        [])
 
-   
+
     return <>
         <Row gutter={[24, 5]}>
             <Col xs={24}>
@@ -203,7 +201,7 @@ export default function AttendanceLogs(props) {
                         </Row>
                     }
                 >
-                    
+
                     <Table
                         className="ant-list-box table-responsive"
                         columns={loginAs==="Admin"? adminCol : loginAs==="Teacher"? teacherCol : loginAs==="Student"? studentCol : null}
