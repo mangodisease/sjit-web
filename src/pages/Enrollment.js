@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Row, Col, Card, Button, Table, Modal, Form, Input, DatePicker, notification, Upload, Image, Select, TimePicker } from "antd";
-import { getEnrolledStudents, EnrollStudent, UpdateEnrolledStudent, getAllStudents, getAllSchedules, RemoveEnrolledSchedule } from "../api";
+import { getEnrolledStudents, EnrollStudent, UpdateEnrolledStudent, getAllStudents, getAllSchedules, RemoveEnrolledSchedule, getStudentImage } from "../api";
 import { useEffect, useState } from "react";
 import logo from "../assets/images/favicon.png"
 import { ToTopOutlined } from "@ant-design/icons";
@@ -205,6 +205,7 @@ export default function Enrollment() {
     const [saving, setsaving] = useState(false)
 
     const [selStud, setselStud] = useState([])
+    const [image, setimage] = useState(null)
     const [students, setstudents] = useState(null)
 
 
@@ -343,13 +344,13 @@ export default function Enrollment() {
         }
     }
 
-    function StudentUI(selStud) {
+    function StudentUI(selStud, image) {
         try {
             const val = JSON.parse(selStud[0])
             return <Row gutter={[24, 5]}>
                 <Col xs={24} lg={7}>
                     <Card>
-                        <center><Image src={val.image} style={{ width: 100, height: 100, }} /></center>
+                        <center><Image src={image} style={{ width: 100, height: 100, }} /></center>
                     </Card>
                 </Col>
                 <Col xs={24} lg={17}>
@@ -397,11 +398,22 @@ export default function Enrollment() {
                     }}
                     placeholder="Search Student 🔎"
                     value={selStud}
-                    onChange={e => {
+                    onChange={async e => {
                         if (e.length > 1) {
                             setselStud([e[0]])
+
                         } else {
                             setselStud(e)
+                        }
+                        if(e.length!==0){
+                            await getStudentImage(JSON.parse(e[0])._id)
+                            .then(res=>{
+                                console.log(res.data)
+                                setimage(res.data.image)
+                            }).catch(err=>{
+                                console.log(err.message)
+                                setimage(null)
+                            })
                         }
                         console.log(e)
                     }}
@@ -412,7 +424,7 @@ export default function Enrollment() {
             {
                 selStud.length > 0 &&
                 <Col xs={24}>
-                    {StudentUI(selStud)}
+                    {StudentUI(selStud, image)}
                 </Col>
             }
 
