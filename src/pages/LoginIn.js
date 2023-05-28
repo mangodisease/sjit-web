@@ -4,6 +4,7 @@ import logo from "../assets/images/favicon.png"
 import { useState } from "react";
 import { loginAPI } from "../api";
 import { useHistory } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 
 export default function Login(props) {
     const history = useHistory()
@@ -59,7 +60,7 @@ export default function Login(props) {
     return <>
         <Modal
             centered
-            width={"auto"}
+            //width={"auto"}
             title={<center><b>Login as 🤔? </b></center>}
             closable={false}
             onCancel={() => {
@@ -68,7 +69,7 @@ export default function Login(props) {
             open={open}
             footer={null}
         >
-            <Row gutter={[24, 5]}>
+            <Row gutter={[24, 10]}>
                 <Col xs={24} lg={8}>
                     <Card hoverable style={{ borderColor: "gray", height: 100 }}
                         onClick={() => {
@@ -107,10 +108,10 @@ export default function Login(props) {
                 </Col>
             </Row>
         </Modal>
-        <Row gutter={[24, 5]} style={{ width: window.innerWidth, padding: 5 }}>
+        <Row gutter={[24, 5]} style={{  }}>
             <Col xs={24} style={{ marginTop: window.innerHeight * .25 }}>
-                <Card>
-                    <center>
+               <center>
+               <Card>
                         <h1> <img src={logo} width={100} /> Attendance - Sign In</h1>
                         <Form
                             layout="horizontal"
@@ -185,8 +186,8 @@ export default function Login(props) {
 
 
                         </Form>
-                    </center>
                 </Card>
+               </center>
             </Col>
         </Row>
     </>
