@@ -61,7 +61,7 @@ function App() {
           <Route exact path="/enroll-student" component={() => { return <Enrollment user={user} loginAs={loginAs} /> }} />
           <Route exact path="/students" component={() => { return <Students user={user} loginAs={loginAs} /> }} />
           <Route exact path="/teachers" component={() => { return <Teachers user={user} loginAs={loginAs} /> }} />
-          <Route exact path="/attendance" component={() => { return <AttendanceLogs user={user} loginAs={loginAs} />}} />
+          <Route exact path="/attendance" component={() => { return <SummaryReport user={user} loginAs={loginAs} /> }} />
 
           <Route exact path="/my-class" component={() => { return <MySchedules user={user} loginAs={loginAs} /> }} />
           <Route exact path="/my-students" component={() => { return <Students user={user} loginAs={loginAs} /> }} />

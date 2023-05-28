@@ -17,7 +17,8 @@ export default function SummaryReport(props) {
     const [late, setlate] = useState([])
 
     async function setSchedules() {
-        await getSchedules({ teacher: user._id }, "", "")
+        const query = loginAs === "Admin"? {} : { teacher: user._id }
+        await getSchedules(query, "", "")
             .then(res => {
                 setschedules(res.data.result)
             }).catch(err => {
