@@ -163,9 +163,10 @@ export async function getAttendanceLogs(query, select, join) {
     })
 }
 
-export async function getAttendanceSummary(date, csID, select, join) {
+export async function getAttendanceSummary(date, query, select, join) {
     return api_url.post("/get-attendance-report", {
         date: date,
-        csID: csID, select: select, join: join
+        query: query, select: select, join: join,
+        csID: query.class_schedule
     })
 }

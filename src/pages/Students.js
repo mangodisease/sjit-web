@@ -25,11 +25,11 @@ export default function Students() {
             )
         },
         {
-            title: "Course - Level",
+            title: "Strand - Level",
             render: val => (
                 <span>
-                    <b>Course: </b> {val.course} <br />
-                    <b>Year Level: </b> {val.year_level}
+                    <b>Strand: </b> {val.course} <br />
+                    <b>Grade: </b> {val.year_level}
                 </span>
             )
         },
@@ -405,7 +405,7 @@ export default function Students() {
                     <Col xs={24}>
                         <Form.Item
                             name="course"
-                            label="Course"
+                            label="Strand"
                             rules={[
                                 { required: true, message: "Please fill in this field!" },
                             ]}
@@ -416,7 +416,7 @@ export default function Students() {
                     <Col xs={24}>
                         <Form.Item
                             name="year_level"
-                            label="Year Level"
+                            label="Grade"
                             rules={[
                                 { required: true, message: "Please fill in this field!" },
                             ]}

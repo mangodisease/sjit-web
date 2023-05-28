@@ -10,16 +10,17 @@ import moment from "moment";
 
 export default function MyClass(props) {
     const { user } = props
-    const student_id = user._id
+    const student = { _id: user._id, name: user.name, parent: user.parent, parent_contact: user.parent_contact }
     const [show, setshow] = useState(false)
     const [list, setlist] = useState(null)
     const [what, setwhat] = useState("Time In")
-    const [teacher_id, setteacher_id] = useState("")
-    const [class_schedule_id, setclass_schedule_id] = useState("")
+    const [teacher, setteacher] = useState("")
+    const [class_schedule, setclass_schedule] = useState("")
     const [class_schedule_time, setclass_schedule_time] = useState("")
 
     function DisplayTime(val) {
         try {
+            console.log(val)
             return <>{moment(val.time[0]).format("hh:mm A")} - {moment(val.time[1]).format("hh:mm A")}</>
         } catch (err) {
             console.log(err.message)
@@ -40,8 +41,8 @@ export default function MyClass(props) {
     function clear(){
         setshow(false)
         setwhat("Time In")
-        setteacher_id("")
-        setclass_schedule_id("")
+        setteacher("")
+        setclass_schedule("")
         setclass_schedule_time("")
     }
     const columns = [
@@ -80,7 +81,7 @@ export default function MyClass(props) {
     ]
     
     async function setSchedules() {
-        await getStudentEnrolledSchedules(student_id)
+        await getStudentEnrolledSchedules(student._id)
             .then(res => {
                 const data = res.data
                 console.log(data.result)
@@ -104,7 +105,9 @@ export default function MyClass(props) {
             return <Row gutter={[24, 0]} style={{ marginBottom: 10 }}>
             {
                 cs!==null&&cs.map((val, k)=>{
-                    return <Col xs={12} lg={8} hidden={!val.class_schedule.days.includes(dayNow)} key={k} style={{ marginBottom: 10 }}>
+                    {//hidden={!val.class_schedule.days.includes(dayNow)}
+                    }
+                    return <Col xs={12} lg={8}  key={k} style={{ marginBottom: 10 }}>
                         <Card
                         hoverable
                         style={{  }}
@@ -114,8 +117,9 @@ export default function MyClass(props) {
                             onClick={()=>{
                                 setshow(true)
                                 setwhat("Time In")
-                                setteacher_id(val.teacher._id)
-                                setclass_schedule_id(val.class_schedule._id)
+                                setteacher(val.teacher)
+                                setclass_schedule(val.class_schedule)
+                                console.log(val.class_schedule.time[0])
                                 setclass_schedule_time(val.class_schedule.time[0])
                             }}
                             >
@@ -158,9 +162,9 @@ export default function MyClass(props) {
             <TRCam 
                 user={user} 
                 what={what} 
-                student_id={student_id}
-                teacher_id={teacher_id} 
-                class_schedule_id={class_schedule_id}
+                student={student}
+                teacher={teacher} 
+                class_schedule={class_schedule}
                 class_schedule_time={class_schedule_time}
             />
         </Modal>

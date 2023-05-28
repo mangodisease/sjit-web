@@ -8,7 +8,7 @@ import axios from "axios";
 import moment from "moment";
 
 export default function TRCam(props){
-    const { student_id, what, teacher_id, class_schedule_id, class_schedule_time} = props
+    const { user, student, what, teacher, class_schedule, class_schedule_time} = props
     const uri = true ? "https://sjit-api-wk869.ondigitalocean.app/attendance-check" : "http://localhost:5000/attendance-check"
 
     const videoConstraints = {
@@ -47,9 +47,11 @@ export default function TRCam(props){
       const Attend = async (file) => {
         try {
           const val = {
-              student_id: student_id, teacher_id: teacher_id,
-              class_schedule_id: class_schedule_id,
-              class_schedule_time: moment(class_schedule_time).format("hh:mm:ss"), 
+              student_id: student._id, 
+              student: student,
+              teacher_id: teacher._id,
+              class_schedule_id: class_schedule._id,
+              class_schedule_time: moment(class_schedule_time).format("hh:mm:ss a"), 
               what: what
           }
           console.log(val)
@@ -66,7 +68,7 @@ export default function TRCam(props){
             setresult(res.data)
             setTimeout(()=>{
                 setresult(null)
-            }, 5000)
+            }, 7000)
           }).catch(err => {
             console.log(err.message)
             setresult(null)

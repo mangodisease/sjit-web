@@ -119,7 +119,7 @@ export default function Enrollment() {
             title: "Teacher",
             render: val => (
                 <Row>
-                    <Col xs={24} lg={7}>
+                    <Col xs={24} lg={7} hidden>
                         <Image src={`${val.teacher.image}`} width={60} height={60} style={{ borderRadius: 50 }} preview />
                     </Col>
                     <Col xs={24} lg={17}>
@@ -304,7 +304,7 @@ export default function Enrollment() {
                     students !== null && students.map((val, k) => {
                         return <Select.Option value={JSON.stringify(val)} key={k} >
                             <Col xs={24}>
-                                <img src={val.image} width={20} style={{ borderRadius: 100, marginRight: 10 }} />
+                                <img src={val.image} width={20} style={{ borderRadius: 100, marginRight: 10 }} hidden />
                                 {val.name}
                             </Col>
                         </Select.Option>

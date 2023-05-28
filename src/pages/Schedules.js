@@ -34,7 +34,7 @@ export default function Schedules() {
                 <Row>
                     <Col xs={24}>
                         <span><b>Subject:</b> {val.subject}</span><br />
-                        <span><b>Year Level:</b> {val.year_level}</span><br />
+                        <span><b>Grade:</b> {val.year_level}</span><br />
                         <span><b>Days:</b> {DisplayDate(val)}</span><br />
                         <span><b>Time:</b> {DisplayTime(val)}</span>
                     </Col>
@@ -321,7 +321,7 @@ export default function Schedules() {
                     <Col xs={24}>
                         <Form.Item
                             name="year_level"
-                            label="Year Level"
+                            label="Grade"
                             rules={[
                                 { required: true, message: "Please fill in this field!" },
                             ]}

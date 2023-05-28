@@ -4,6 +4,8 @@ import { getAttendanceSummary } from "../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { getSchedules } from "../api";
+import { CSVLink } from "react-csv";
+
 export default function SummaryReport(props) {
     const { user, loginAs } = props
 
@@ -25,14 +27,13 @@ export default function SummaryReport(props) {
     }
 
     async function setAttendanceSummary(date, query, select, join) {
-
+        console.log(query)
         await getAttendanceSummary(date, query, select, join)
             .then(res => {
-                const result = res.data.result
-                const rslt = result.filter(({ class_schedule }) => class_schedule._id === JSON.parse(selSched)._id)
-                setlist(rslt)
-                setpresent(rslt.filter(({ remarks }) => remarks === "PRESENT"))
-                setlate(rslt.filter(({ remarks }) => remarks.toLowerCase().includes("late")))
+                const val = res.data
+                setlist(val.result)
+                setpresent(val.present)
+                setlate(val.late)
                 
             }).catch(err => {
                 console.log(err.message)
@@ -127,7 +128,7 @@ export default function SummaryReport(props) {
             title: "Stud ID",
             render: val => (
                 <span>
-                    {val.std_id}
+                    {val.student_id}
                 </span>
             )
         },
@@ -135,7 +136,7 @@ export default function SummaryReport(props) {
             title: <center>Student</center>,
             render: val => (
                 <center>
-                    {val.student.name}
+                    {val.student}
                 </center>
             )
         },
@@ -143,7 +144,7 @@ export default function SummaryReport(props) {
             title: "Date",
             render: val => (
                 <span>
-                    {moment(val.time).format("MMMM DD, YYYY")}<br />
+                    {val.date}<br />
                 </span>
             )
         },
@@ -151,7 +152,7 @@ export default function SummaryReport(props) {
             title: "Time In",
             render: val => (
                 <span>
-                    {moment(val.time).format("hh:mm:ss A")}<br />
+                    {val.timeIn}<br />
                 </span>
             )
         },
@@ -205,7 +206,7 @@ export default function SummaryReport(props) {
                         {ScheduleUI(selSched)}
                     </Col>
                 }
-                <b>Sumarry Report</b>
+                <b>Summary Report</b>
                 <br />
                 
                     <Row>
@@ -220,11 +221,26 @@ export default function SummaryReport(props) {
                             </center>
                         </Col>
                     </Row>
-                
+                    <Button type="link">
+                        {
+                            list!==null?
+                            <CSVLink
+                                data={list}
+                                filename={"summary-report.csv"}
+                                className="btn btn-primary"
+                                target="_blank"
+                                >
+                                <b style={{ color: "green" }}>DOWNLOAD CSV</b>
+                            </CSVLink>
+                            : 
+                            <b></b>
+                        }
+                    </Button>
+                    
                 <Table
                     className="ant-list-box table-responsive"
                     columns={columns}
-                    //loading={list === null}
+                    loading={list === null && selDate!==null}
                     dataSource={list}
                 />
             </Card>
