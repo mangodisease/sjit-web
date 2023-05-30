@@ -3,7 +3,7 @@ import Webcam from "react-webcam";
 import { useState } from "react";
 // eslint-disable-next-line
 import { Row, Col, notification, Button, Image, Alert } from "antd";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "react-device-detect"; vb
 import axios from "axios";
 import moment from "moment";
 

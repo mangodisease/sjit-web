@@ -17,6 +17,7 @@ import MySchedules from "./pages/MySchedules";
 import MyClass from "./pages/MyClass";
 import AttendanceLogs from "./pages/AttendanceLogs";
 import SummaryReport from "./pages/SummaryReport";
+import DTRStudent from "./pages/DTRStudent";
 function App() {
   const history = useHistory()
   const [user, setuser] = useState(getCachedUser())//null
@@ -62,6 +63,7 @@ function App() {
           <Route exact path="/students" component={() => { return <Students user={user} loginAs={loginAs} /> }} />
           <Route exact path="/teachers" component={() => { return <Teachers user={user} loginAs={loginAs} /> }} />
           <Route exact path="/attendance" component={() => { return <SummaryReport user={user} loginAs={loginAs} /> }} />
+          <Route exact path="/dtr-student" component={() => { return <DTRStudent user={user} loginAs={loginAs} /> }} />
 
           <Route exact path="/my-class" component={() => { return <MySchedules user={user} loginAs={loginAs} /> }} />
           <Route exact path="/my-students" component={() => { return <Students user={user} loginAs={loginAs} /> }} />

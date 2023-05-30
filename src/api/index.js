@@ -134,6 +134,13 @@ export async function getEnrolledStudents() {
     })
 }
 
+export async function getEnrolledStudentsBySchedule(query, select, join) {
+    return api_url.post("/get-enrolled-students", {
+        col: "enrolled",
+        query: query, select: select, join:  join
+    })
+}
+
 export async function EnrollStudent(data) {
     return api_url.post("/insert", {
         col: "enrolled",
