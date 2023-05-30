@@ -189,9 +189,14 @@ export default function SummaryReport(props) {
                         placeholder={"Class Schedules List"}
                         value={selSched}
                         onChange={async e => {
-                            if (e.length > 1) {
+                            if(e.length===0){
+                                setselSched(e)
+                                setlist(null)
+                                setlate([])
+                                setpresent([])
+                            }
+                            else if (e.length > 1) {
                                 setselSched([e[0]])
-                                await setAttendance
                             } else {
                                 setselSched(e)
                             }
