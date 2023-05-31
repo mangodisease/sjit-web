@@ -248,7 +248,7 @@ export default function Students() {
                 setStudents()
                 clear()
             } else {
-                alert("Unable to update, Please try again later!")
+                alert("Unable to detect face, please try another image!")
             }
             setsaving(false)
         }).catch(err=>{
