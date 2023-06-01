@@ -2,9 +2,8 @@
 import { Row, Col, Card, Button, Table, Modal, Image } from "antd";
 import { getAttendanceLogs } from "../api";
 import { useEffect, useState } from "react";
-
-
-import moment from "moment";
+import moment from "moment-timezone";
+moment.tz.setDefault("Asia/Manila");
 
 export default function AttendanceLogs(props) {
     const { user, loginAs } = props

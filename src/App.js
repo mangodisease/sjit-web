@@ -1,8 +1,6 @@
 /* eslint-disable */
 import { Switch, Route, Redirect, useLocation, useHistory } from "react-router-dom";
-import Home from "./pages/Home";
-import Tables from "./pages/Tables";
-//import SignIn from "./pages/SignIn";
+
 import Main from "./components/layout/Main";
 import Login from "./pages/LoginIn";
 import Teachers from "./pages/Teachers";

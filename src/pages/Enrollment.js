@@ -4,7 +4,8 @@ import { getEnrolledStudents, EnrollStudent, UpdateEnrolledStudent, getAllStuden
 import { useEffect, useState } from "react";
 import logo from "../assets/images/favicon.png"
 import { ToTopOutlined } from "@ant-design/icons";
-import moment from "moment";
+import moment from "moment-timezone";
+moment.tz.setDefault("Asia/Manila");
 
 export default function Enrollment() {
 
@@ -183,10 +184,10 @@ export default function Enrollment() {
             })
     }
 
-    useEffect(async () => {
-        await setEnrolledStudents()
-        await setSchedules()
-        await setStudents()
+    useEffect(() => {
+        setEnrolledStudents()
+        setSchedules()
+        setStudents()
     },
         // eslint-disable-next-line
         [])

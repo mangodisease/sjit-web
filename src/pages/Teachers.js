@@ -4,7 +4,8 @@ import { getAllTeachers, AddStudent, UpdateStudent, AddTeacher, UpdateTeacher } 
 import { useEffect, useState } from "react";
 import logo from "../assets/images/favicon.png"
 import { ToTopOutlined } from "@ant-design/icons";
-import moment from "moment";
+import moment from "moment-timezone";
+moment.tz.setDefault("Asia/Manila");
 
 export default function Teachers() {
 

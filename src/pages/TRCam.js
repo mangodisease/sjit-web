@@ -50,6 +50,7 @@ export default function TRCam(props){
               student_id: student._id, 
               student: student,
               teacher_id: teacher._id,
+              subject: class_schedule.subject,
               class_schedule_id: class_schedule._id,
               class_schedule_time: moment(class_schedule_time).format("hh:mm:ss a"), 
               what: what

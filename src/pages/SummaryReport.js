@@ -2,9 +2,10 @@
 import { Row, Col, Card, Button, Table, Modal, Image, Select, DatePicker } from "antd";
 import { getAttendanceSummary } from "../api";
 import { useEffect, useState } from "react";
-import moment from "moment";
 import { getSchedules } from "../api";
 import { CSVLink } from "react-csv";
+import moment from "moment-timezone";
+moment.tz.setDefault("Asia/Manila");
 
 export default function SummaryReport(props) {
     const { user, loginAs } = props

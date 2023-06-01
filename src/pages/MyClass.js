@@ -6,7 +6,8 @@ import logo from "../assets/images/favicon.png"
 import { ToTopOutlined } from "@ant-design/icons";
 import TRCam from "./TRCam";
 
-import moment from "moment";
+import moment from "moment-timezone";
+moment.tz.setDefault("Asia/Manila");
 
 export default function MyClass(props) {
     const { user } = props

@@ -3,9 +3,10 @@ import { Col, Row, Modal, Card, Select, Table, Image, Button, Input, Space } fro
 import { useEffect, useRef, useState } from "react";
 import TRCam from "./TRCam";
 import { getEnrolledStudentsBySchedule, getSchedules } from "../api";
-import moment from "moment";
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+import moment from "moment-timezone";
+moment.tz.setDefault("Asia/Manila");
 
 export default function DTRStudent(props){
     const { user, loginAs } = props
