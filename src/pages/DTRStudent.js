@@ -177,7 +177,8 @@ export default function DTRStudent(props){
         filterIcon: (filtered) => (
           <SearchOutlined
             style={{
-              color: filtered ? '#1677ff' : undefined,
+              fontSize: 23, fontWeight: 'bolder',
+              color: '#1677ff'
             }}
           />
         ),

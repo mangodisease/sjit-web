@@ -604,7 +604,7 @@ export default function Students() {
                                 { required: true, message: "Please input parent contact!" },
                             ]}
                         >
-                            <Input type="text" placeholder="e.g.09123456789" />
+                            <Input type="number" placeholder="e.g.09123456789" />
                         </Form.Item>
                     </Col>
                     

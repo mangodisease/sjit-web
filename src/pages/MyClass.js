@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { Row, Col, Card, Button, Table, Modal,  Image } from "antd";
-import { getStudentEnrolledSchedules,  } from "../api";
+import { Row, Col, Card, Button, Table, Modal, Image } from "antd";
+import { getStudentEnrolledSchedules, } from "../api";
 import { useEffect, useState } from "react";
 import logo from "../assets/images/favicon.png"
 import { ToTopOutlined } from "@ant-design/icons";
@@ -38,8 +38,7 @@ export default function MyClass(props) {
         }
     }
 
-   
-    function clear(){
+    function clear() {
         setshow(false)
         setwhat("Time In")
         setteacher("")
@@ -68,19 +67,19 @@ export default function MyClass(props) {
         {
             title: "Time",
             render: val => (
-            <span>{DisplayTime(val.class_schedule)}</span>
+                <span>{DisplayTime(val.class_schedule)}</span>
             )
         },
         {
             title: <center>Teacher</center>,
             render: val => (
-            <center>
-                {val.teacher.name}
-            </center>
+                <center>
+                    {val.teacher.name}
+                </center>
             )
         }
     ]
-    
+
     async function setSchedules() {
         await getStudentEnrolledSchedules(student._id)
             .then(res => {
@@ -97,51 +96,53 @@ export default function MyClass(props) {
         await setSchedules()
     },
         // eslint-disable-next-line
-    [])
+        [])
 
-    function DisplaySched(cs){
+    function DisplaySched(cs) {
         try {
             const dayNow = moment().format("ddd")
             console.log(dayNow)
-            return <Row gutter={[24, 0]} style={{ marginBottom: 10 }}>
-            {
-                cs!==null&&cs.map((val, k)=>{
-                    {//hidden={!val.class_schedule.days.includes(dayNow)}
-                    }
-                    return <Col xs={12} lg={8}  key={k} style={{ marginBottom: 10 }}>
-                        <Card
-                        hoverable
-                        style={{  }}
-                        actions={[
-                            <center><Button type={"primary"} 
-                            //style={{float: "right"}}
-                            onClick={()=>{
-                                setshow(true)
-                                setwhat("Time In")
-                                setteacher(val.teacher)
-                                setclass_schedule(val.class_schedule)
-                                console.log(val.class_schedule.time[0])
-                                setclass_schedule_time(val.class_schedule.time[0])
-                            }}
+            return <Row gutter={[24, 5]} style={{ marginBottom: 10 }}>
+                {
+                    cs !== null && cs.map((val, k) => {
+                        {//hidden={!val.class_schedule.days.includes(dayNow)}
+                        }
+                        return <Col xs={24} lg={12} xl={8} key={k} style={{ marginBottom: 10 }}>
+                            <Card
+                                hoverable
+                                style={{ padding: 5 }}
+                                actions={[
+                                    <center>
+                                        <Button type={"primary"}
+                                            //style={{float: "right"}}
+                                            onClick={() => {
+                                                setshow(true)
+                                                setwhat("Time In")
+                                                setteacher(val.teacher)
+                                                setclass_schedule(val.class_schedule)
+                                                console.log(val.class_schedule.time[0])
+                                                setclass_schedule_time(val.class_schedule.time[0])
+                                            }}
+                                        >
+                                            Time In
+                                        </Button>
+                                    </center>
+                                ]}
                             >
-                                Time In
-                            </Button></center>
-                        ]}
-                        >
-                            <Row>
-                                <Col xs={24} xl={12}>
-                                    <b>{val.class_schedule.subject}</b><br/>
-                                    <small>{val.teacher.name}</small>
-                                </Col>
-                                <Col xs={24} xl={12}>
-                                    <small style={{ float: "right"}}> {DisplayTime(val.class_schedule)}</small><br/>
-                                    <small style={{ float: "right"}}> {DisplayDate(val.class_schedule)}</small><br/>
-                                </Col>
-                            </Row>
-                        </Card>
-                    </Col>
-                })
-            }
+                                <Row>
+                                    <Col xs={24} xl={12}>
+                                        <b>{val.class_schedule.subject}</b><br />
+                                        <small>{val.teacher.name}</small>
+                                    </Col>
+                                    <Col xs={24} xl={12}>
+                                        <small style={{ float: "right" }}> {DisplayTime(val.class_schedule)}</small><br />
+                                        <small style={{ float: "right" }}> {DisplayDate(val.class_schedule)}</small><br />
+                                    </Col>
+                                </Row>
+                            </Card>
+                        </Col>
+                    })
+                }
             </Row>
         } catch (err) {
             console.log(err.message)
@@ -157,19 +158,21 @@ export default function MyClass(props) {
             }}
             open={show}
             footer={[
-               null
+                null
             ]}
         >
-            <TRCam 
-                user={user} 
-                what={what} 
+            <TRCam
+                user={user}
+                what={what}
                 student={student}
-                teacher={teacher} 
+                teacher={teacher}
                 class_schedule={class_schedule}
                 class_schedule_time={class_schedule_time}
             />
         </Modal>
-        <b>Class Schedule Today</b>
+        <Col xs={24} style={{ marginBottom: 10 }}>
+            <b>Class Schedule Today</b>
+        </Col>
         {DisplaySched(list)}
         <Row gutter={[24, 5]}>
             <Col xs={24}>
@@ -183,11 +186,11 @@ export default function MyClass(props) {
                         </Row>
                     }
                 >
-                    
+
                     <Table
                         className="ant-list-box table-responsive"
                         columns={columns}
-                        loading={list===null}
+                        loading={list === null}
                         dataSource={list}
                     />
                 </Card>
